@@ -10,7 +10,7 @@ const initialState = {
   value: [],
   status: "idle",
 };
-
+ 
 export const selectTodos = (state) => state.counter.value;
 
 export const todoSlice = createSlice({

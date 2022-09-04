@@ -29,10 +29,10 @@ export default function Todo() {
 
   React.useEffect(() => {
     dispatch(getTodosR());
-  }, []);
+  });
 
   const [open, setOpen] = React.useState(false);
-
+ 
   const methodProp = React.useRef(null);
   const updatedTodoData = React.useRef({});
 
