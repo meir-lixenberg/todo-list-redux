@@ -20,6 +20,7 @@ import {
   selectTodos as selectTodosR,
   deleteTodo as deleteTodoR,
   updateTodo as updateTodoR,
+  sortTodos as sortTodosR
 } from "./todoSlice";
 
 export default function Todo() {
@@ -76,20 +77,10 @@ export default function Todo() {
   };
 
   const sortTodos = (e) => {
-    const selected = e.target.value;
-    let func;
-    if (selected === "priority") {
-      func = (a, b) =>
-        a.priority > b.priority ? 1 : b.priority > a.priority ? -1 : 0;
-    }
-    if (selected === "text") {
-      func = (a, b) => a.text.localeCompare(b.text);
-    }
-    if (selected === "category") {
-      func = (a, b) => a.category.localeCompare(b.category);
-    }
-
-    const sortedTodos = todos.sort(func);
+    const sortBy = e.target.value;
+    
+    dispatch(sortTodosR(sortBy));
+    
   };
 
   const TodoFormWrapper = React.forwardRef((props, ref) => (

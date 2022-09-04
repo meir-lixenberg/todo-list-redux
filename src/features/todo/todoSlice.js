@@ -16,7 +16,27 @@ export const selectTodos = (state) => state.counter.value;
 export const todoSlice = createSlice({
   name: "todo",
   initialState,
+  reducers: {
+    sortTodos: (state, action) => {
+      const sortBy = action.payload;
 
+      let func;
+      if (sortBy === "priority") {
+        func = (a, b) =>
+          a.priority > b.priority ? 1 : b.priority > a.priority ? -1 : 0;
+      }
+      if (sortBy === "text") {
+        func = (a, b) => a.text.localeCompare(b.text);
+      }
+      if (sortBy === "category") {
+        func = (a, b) => a.category.localeCompare(b.category);
+      }
+
+      const sortedTodos = [...state.value].sort(func);
+
+      state.value = [...sortedTodos];
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addTodo.fulfilled, (state, action) => {
@@ -43,6 +63,8 @@ export const todoSlice = createSlice({
       });
   },
 });
+
+export const { sortTodos } = todoSlice.actions;
 
 export const getTodos = createAsyncThunk("todo/getTodos", async (data) => {
   let response = await getTodosAPI(data);
